@@ -23,6 +23,7 @@ namespace Student001.Model
      * 
      * ved Migraitons:
      * add-migration etnavn
+     * update-database
      */
 
      /// <summary>
