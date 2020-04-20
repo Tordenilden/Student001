@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +32,12 @@ namespace Student001
             //Data Source = TEC - 5350 - LA0052; Initial Catalog = Cinema2020002; Integrated Security = True
             var connectionString = @"Server=TEC-5350-LA0052;Database=Cinema2020002; Trusted_Connection=true";
             services.AddDbContext<DatabaseContext>((options) => options.UseSqlServer(connectionString));
-            services.AddControllers();
+            
+            
+            
+            
+            services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,52 +11,48 @@ namespace Student001.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class TeachersController : ControllerBase
     {
         private readonly DatabaseContext _context;
 
-        public StudentsController(DatabaseContext context)
+        public TeachersController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // Hvis vi ønsker at joine allerede her, for at få data ud om zipcode mm....
-        // GET: api/Students
+        // GET: api/Teachers
         [HttpGet]
-        public ActionResult<IEnumerable<Student>> GetStudent()
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeacher()
         {
-            var studentList = _context.Student.Include(student => student.Zipcode).ToList();
-
-            return studentList;//    _context.Student.ToList();
+            return await _context.Teacher.ToListAsync();
         }
 
-        // GET: api/Students/5
+        // GET: api/Teachers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
+        public async Task<ActionResult<Teacher>> GetTeacher(int id)
         {
-            // enVariabel = databasen.TabellenStudent.FindIDSomER(id) // id er eks. 3
-            var student = await _context.Student.FindAsync(id);
+            var teacher = await _context.Teacher.FindAsync(id);
 
-            if (student == null)
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            return student;
+            return teacher;
         }
 
-        // PUT: api/Students/5
+        // PUT: api/Teachers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent(int id, Student student)
+        public async Task<IActionResult> PutTeacher(int id, Teacher teacher)
         {
-            if (id != student.studentId)
+            if (id != teacher.teacherId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(student).State = EntityState.Modified;
+            _context.Entry(teacher).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +60,7 @@ namespace Student001.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(id))
+                if (!TeacherExists(id))
                 {
                     return NotFound();
                 }
@@ -77,37 +73,37 @@ namespace Student001.Controllers
             return NoContent();
         }
 
-        // POST: api/Students
+        // POST: api/Teachers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
+        public async Task<ActionResult<Teacher>> PostTeacher(Teacher teacher)
         {
-            _context.Student.Add(student);
+            _context.Teacher.Add(teacher);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudent", new { id = student.studentId }, student);
+            return CreatedAtAction("GetTeacher", new { id = teacher.teacherId }, teacher);
         }
 
-        // DELETE: api/Students/5
+        // DELETE: api/Teachers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Student>> DeleteStudent(int id)
+        public async Task<ActionResult<Teacher>> DeleteTeacher(int id)
         {
-            var student = await _context.Student.FindAsync(id);
-            if (student == null)
+            var teacher = await _context.Teacher.FindAsync(id);
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            _context.Student.Remove(student);
+            _context.Teacher.Remove(teacher);
             await _context.SaveChangesAsync();
 
-            return student;
+            return teacher;
         }
 
-        private bool StudentExists(int id)
+        private bool TeacherExists(int id)
         {
-            return _context.Student.Any(e => e.studentId == id);
+            return _context.Teacher.Any(e => e.teacherId == id);
         }
     }
 }

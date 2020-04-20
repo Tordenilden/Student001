@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,5 +36,10 @@ namespace Student001.Model
         public string firstname { get; set; }
         public string surname { get; set; }
         public string address { get; set; }
+        // foreign key
+        //[ForeignKey("Zipcode")] // hvilken klasse kommer det fra!!
+        public int zipcodeId { get; set; }// vær opmærksom på at kalde den det samme
+        // reference som benyttes af EF "Builder"
+        public Zipcode Zipcode { get; set; } // kan undlade denne sætning og måske går det godt
     }
 }
