@@ -13,23 +13,29 @@ namespace Student001.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
+        #region start
         private readonly DatabaseContext _context;
 
         public StudentsController(DatabaseContext context)
         {
             _context = context;
         }
-
+        //var gg = from collection
+        //         where noget er givet
+        //        select kolonner mm
         // Hvis vi ønsker at joine allerede her, for at få data ud om zipcode mm....
         // GET: api/Students
+
+        #endregion start
+        #region Get all
         [HttpGet]
         public ActionResult<IEnumerable<Student>> GetStudent()
         {
             var studentList = _context.Student.Include(student => student.Zipcode).ToList();
-
             return studentList;//    _context.Student.ToList();
         }
-
+        #endregion Get all
+        #region Get one student
         // GET: api/Students/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
@@ -44,7 +50,8 @@ namespace Student001.Controllers
 
             return student;
         }
-
+        #endregion Get one student
+        #region update student
         // PUT: api/Students/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -80,6 +87,8 @@ namespace Student001.Controllers
         // POST: api/Students
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        #endregion update student
+        #region Post data for student
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
@@ -88,7 +97,8 @@ namespace Student001.Controllers
 
             return CreatedAtAction("GetStudent", new { id = student.studentId }, student);
         }
-
+        #endregion Post data for student
+        #region delete student
         // DELETE: api/Students/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Student>> DeleteStudent(int id)
@@ -104,6 +114,17 @@ namespace Student001.Controllers
 
             return student;
         }
+        #endregion delete student
+
+
+
+
+
+
+
+
+
+
 
         private bool StudentExists(int id)
         {
@@ -111,3 +132,10 @@ namespace Student001.Controllers
         }
     }
 }
+//// GET: api/Students/zipcode/4000
+//[HttpGet("zipcode/{code}")]
+//public async Task<ActionResult<List<Student>>> GetStudent(int code)
+//{
+//    var studentList = await _context.Student.Include(student => student.Zipcode).ThenInclude(z => z.zipcode == code).ToListAsync();
+//    return studentList;
+//}

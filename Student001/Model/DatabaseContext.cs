@@ -18,8 +18,28 @@ namespace Student001.Model
         public DbSet<Zipcode> Zipcode { get; set; }
         public DbSet<Student001.Model.Teacher> Teacher { get; set; }
         public DbSet<Course> Course { get; set; }
-        //så er spørgsmålet fra mig til jer tror I der skal oprettes et DbSet<TeacherCourse> ??
-    }
+        public DbSet<TeacherCourse> TeacherCourse { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // dette er 1-M M-1   her er samlingstabellen
+            modelBuilder.Entity<TeacherCourse>()
+            .HasKey(t => new { t.teacherId, t.courseId });
+
+
+        }
+    }
+    //modelBuilder.Entity<TeacherCourse>()
+    //    .HasOne(pt => pt.Movie)
+    //    .WithMany(p => p.MovieGenres)
+    //    .HasForeignKey(pt => pt.movieId);
+
+    //modelBuilder.Entity<TeacherCourse>()
+    //    .HasOne(pt => pt.Genre)
+    //    .WithMany(t => t.MovieGenres)
+    //    .HasForeignKey(pt => pt.genreId);
+
+
+    //override på modelbuilder (protected) -- så ikke hashset
     // DbSet<Student> Student er linket til tabellen student, men det ligger jo i klassen DatabaseContext
 }

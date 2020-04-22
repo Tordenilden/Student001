@@ -16,6 +16,10 @@
     <Compile Include="Migrations\20200420074442_ny.Designer.cs" />
     <Compile Include="Migrations\20200420105832_allClasses.cs" />
     <Compile Include="Migrations\20200420105832_allClasses.Designer.cs" />
+    <Compile Include="Migrations\20200421063732_studentChanges.cs" />
+    <Compile Include="Migrations\20200421063732_studentChanges.Designer.cs" />
+    <Compile Include="Migrations\20200422073413_mangemange.cs" />
+    <Compile Include="Migrations\20200422073413_mangemange.Designer.cs" />
     <Compile Include="Migrations\DatabaseContextModelSnapshot.cs" />
   </ItemGroup>
 

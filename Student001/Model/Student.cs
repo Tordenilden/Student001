@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace Student001.Model
     public class Student
     {
         public int studentId { get; set; }
+        [Required]
         public string firstname { get; set; }
         public string surname { get; set; }
         public string address { get; set; }

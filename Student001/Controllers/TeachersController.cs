@@ -22,29 +22,63 @@ namespace Student001.Controllers
 
         // GET: api/Teachers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeacher()
+        public ActionResult<IEnumerable<Teacher>> GetTeacher()
         {
-            return await _context.Teacher.ToListAsync();
+            // henter alle teachers
+            var query = _context.Teacher.ToList();
+            List<Teacher> query23 = _context.Teacher.ToList();
+
+            // kan vi request teachercourse ?
+            var query1 = _context.Teacher
+                .Include(teacher => teacher.TeacherCourse)
+                .ThenInclude(tc => tc.course).ToList();
+            var query2 = _context.Teacher
+               .Include(teacher => teacher.TeacherCourse).ToList();
+
+
+
+            // hvorfor det ? lidt senere
+
+            return query2;
+            //db.Categories.Where(c => c.Id == categoryId).SelectMany(c => c.Articles)?
+            
+            //var query = _context.TeacherCourse.Where(tc=>tc.teacherId==1).SelectMany(c=>c.course)).
+            //return await _context.Teacher.ToListAsync();
         }
+
+        /*postman data tilbage
+         *  {
+        "teacherId": 1,
+        "firstname": "Polle",
+        "surname": "ibsen",
+        "address": "smølfevej 55",
+        "teacherCourse": null    --- det er fordi der mangler et join at de ikke er fyldt ud!!
+    },
+         
+             */
 
         // GET: api/Teachers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Teacher>> GetTeacher(int id)
-        {
-            var teacher = await _context.Teacher.FindAsync(id);
-
-            if (teacher == null)
+        { // burde altid lave en try-catch-finally måske
+            Teacher teacher = null;
+            var exists = await _context.Teacher.FindAsync(id);
+            if (exists != null)
             {
-                return NotFound();
+                teacher = await _context.Teacher.Where(teacher => teacher.teacherId == id)
+               .Include(teacher => teacher.TeacherCourse)
+               .ThenInclude(tc => tc.course).SingleOrDefaultAsync(); // mærkeligt den ikke kan se course
             }
+            else { return NotFound(); }
 
-            return teacher;
+            return teacher; // Ok() bliver kaldt automatisk
         }
-
+        //var q = await _context.Teacher.Where(t => t.teacherId == 1).SelectMany(a => a.TeacherCourse).Select(tc => tc.course).ToListAsync();
+        //var t = await _context.Teacher.Where(t => t.teacherId == 1).SelectMany(a => a.TeacherCourse).Select(tc => tc.course).ToListAsync();
         // PUT: api/Teachers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
+        [HttpPut("{id}")] // opdater en teacher
         public async Task<IActionResult> PutTeacher(int id, Teacher teacher)
         {
             if (id != teacher.teacherId)

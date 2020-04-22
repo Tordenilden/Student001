@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Student001.Model;
 
 namespace Student001.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200421063732_studentChanges")]
+    partial class studentChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,21 +83,6 @@ namespace Student001.Migrations
                     b.ToTable("Teacher");
                 });
 
-            modelBuilder.Entity("Student001.Model.TeacherCourse", b =>
-                {
-                    b.Property<int>("teacherId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("courseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("teacherId", "courseId");
-
-                    b.HasIndex("courseId");
-
-                    b.ToTable("TeacherCourse");
-                });
-
             modelBuilder.Entity("Student001.Model.Zipcode", b =>
                 {
                     b.Property<int>("zipcodeId")
@@ -119,21 +106,6 @@ namespace Student001.Migrations
                     b.HasOne("Student001.Model.Zipcode", "Zipcode")
                         .WithMany("student")
                         .HasForeignKey("zipcodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Student001.Model.TeacherCourse", b =>
-                {
-                    b.HasOne("Student001.Model.Course", "course")
-                        .WithMany("TeacherCourse")
-                        .HasForeignKey("courseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Student001.Model.Teacher", "teacher")
-                        .WithMany("TeacherCourse")
-                        .HasForeignKey("teacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
